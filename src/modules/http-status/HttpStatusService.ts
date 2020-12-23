@@ -1,4 +1,3 @@
-import { httpStatusCode } from "@/modules/common/httpStatusCode";
 import { IHttpStatusService } from "./interfaces";
 
 interface IHttpStatusCode {
@@ -8,14 +7,16 @@ interface IHttpStatusCode {
 
 export class HttpStatusService implements IHttpStatusService {
   private static instance: HttpStatusService = new HttpStatusService();
+  private httpStatusCodeDocs: Array<IHttpStatusCode> = [];
 
   static getInstance(): HttpStatusService {
     return this.instance;
   }
 
-  constructor(
-    private readonly httpStatusCodeDocs: Array<IHttpStatusCode> = httpStatusCode
-  ) {}
+  setHttpStatusCodeDocs(docs: Array<IHttpStatusCode>): this {
+    this.httpStatusCodeDocs = docs;
+    return this;
+  }
 
   getHttpStatusMessage(statusCode: string): string {
     const pickUpStatusCode: Array<IHttpStatusCode> = this.httpStatusCodeDocs.filter(

@@ -15,6 +15,7 @@
 import { Vue, Prop, Component } from "vue-property-decorator";
 import { Logger } from "@/modules/common/Logger";
 import { HttpStatusService } from "../modules/http-status/HttpStatusService";
+import { httpStatusCode } from "@/modules/common/httpStatusCode";
 
 interface IHttpStatusCode {
   statusCode: string;
@@ -23,7 +24,9 @@ interface IHttpStatusCode {
 
 @Component
 export default class Error extends Vue {
-  private readonly httpStatusService: HttpStatusService = HttpStatusService.getInstance();
+  private readonly httpStatusService: HttpStatusService = HttpStatusService.getInstance().setHttpStatusCodeDocs(
+    httpStatusCode
+  );
   private readonly logger: Logger = new Logger("Error.vue");
 
   @Prop()
