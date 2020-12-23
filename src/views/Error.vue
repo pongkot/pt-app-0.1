@@ -38,7 +38,7 @@ export default class Error extends ErrorProps {
     );
     const result: string = pickUpStatusCode[0]
       ? pickUpStatusCode[0].message
-      : "invalid status code";
+      : "Invalid status code";
     return result;
   }
 }
