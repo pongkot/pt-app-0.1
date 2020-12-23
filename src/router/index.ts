@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter, { NavigationGuardNext, Route, RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";
-import { errorRouter } from "../router/error.router";
+import { errorRouter } from "@/router/error.router";
 
 Vue.use(VueRouter);
 

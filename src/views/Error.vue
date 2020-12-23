@@ -12,34 +12,26 @@
 </template>
 
 <script lang="ts">
-import { Vue } from "vue-property-decorator";
-import { httpStatusCode as httpStatusList } from "../modules/common/httpStatusCode";
+import { Vue, Prop, Component } from "vue-property-decorator";
+import { Logger } from "@/modules/common/Logger";
+import { HttpStatusService } from "../modules/http-status/HttpStatusService";
 
 interface IHttpStatusCode {
   statusCode: string;
   message: string;
 }
 
-const ErrorProps = Vue.extend({
-  props: {
-    statusCode: String
-  }
-});
+@Component
+export default class Error extends Vue {
+  private readonly httpStatusService: HttpStatusService = HttpStatusService.getInstance();
+  private readonly logger: Logger = new Logger("Error.vue");
 
-export default class Error extends ErrorProps {
-  private readonly httpStatus: Array<{
-    statusCode: string;
-    message: string;
-  }> = httpStatusList;
+  @Prop()
+  private readonly statusCode!: string;
 
   getHttpMessage(statusCode: string): string {
-    const pickUpStatusCode: Array<IHttpStatusCode> = this.httpStatus.filter(
-      (doc: IHttpStatusCode) => doc.statusCode === statusCode
-    );
-    const result: string = pickUpStatusCode[0]
-      ? pickUpStatusCode[0].message
-      : "Invalid status code";
-    return result;
+    this.logger.log(`statusCode: ${statusCode}`);
+    return this.httpStatusService.getHttpStatusMessage(statusCode);
   }
 }
 </script>
