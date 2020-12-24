@@ -1,13 +1,11 @@
 import { HttpStatusService } from "@/modules/http-status/HttpStatusService";
-import {
-  IHttpStatusCode,
-  IHttpStatusService
-} from "@/modules/http-status/interfaces";
+import { IHttpStatusService } from "@/modules/http-status/interfaces";
+import { IHttpStatusCode } from "@/modules/common/interfaces";
 
 const mockHttpStatus: Array<IHttpStatusCode> = [
   {
-    statusCode: "404",
-    message: "Not Found"
+    code: "404",
+    phrase: "Not Found"
   }
 ];
 
@@ -19,8 +17,8 @@ describe("HttpStatusService", () => {
   it("status code 404 is Not Found should be true", () => {
     const statusCode = "404";
     const e: IHttpStatusCode = {
-      statusCode,
-      message: "Not Found"
+      code: statusCode,
+      phrase: "Not Found"
     };
     const a: IHttpStatusCode = httpStatusCodeService.getHttpStatus(statusCode);
     expect(a).toMatchObject(e);
@@ -29,8 +27,8 @@ describe("HttpStatusService", () => {
   it("status code 99 is Invalid status code should be true", () => {
     const statusCode = "99";
     const e: IHttpStatusCode = {
-      statusCode: "-1",
-      message: "Invalid status code"
+      code: "-1",
+      phrase: "Invalid status code"
     };
     const a: IHttpStatusCode = httpStatusCodeService.getHttpStatus(statusCode);
     expect(a).toMatchObject(e);

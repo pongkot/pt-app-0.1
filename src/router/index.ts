@@ -2,10 +2,18 @@ import Vue from "vue";
 import VueRouter, { NavigationGuardNext, Route, RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";
 import { errorRouter } from "@/router/error.router";
+import { loginRouter } from "./login.router";
+import { Logger } from "@/modules/common/Logger";
+
+const logger: Logger = new Logger("router");
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
+  {
+    path: "*",
+    redirect: "/error/404"
+  },
   {
     path: "/",
     name: "Home",
@@ -20,7 +28,8 @@ const routes: Array<RouteConfig> = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue")
   },
-  ...errorRouter
+  ...errorRouter,
+  ...loginRouter
 ];
 
 const router = new VueRouter({
@@ -30,17 +39,17 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to: Route, from: Route, next: NavigationGuardNext<Vue>) => {
-  const isViewAbout: boolean = to.name === "About";
-  const isViewIndex: boolean = to.name === "Home";
-
-  if (isViewAbout) {
+  const isLoggedIn: boolean =
+    sessionStorage.getItem("loggedIn") === "TRUE" ? true : false;
+  const currentView: string = to.name ? to.name : "n/a";
+  const requiredLoggedInAccessList: Array<string> = ["About"];
+  logger.log(`isLoggedIn: ${isLoggedIn}`);
+  logger.log(`currentView: ${currentView}`);
+  const inRequiredLoggedInAccessList: string = requiredLoggedInAccessList
+    .filter((i: string) => i === currentView)
+    .toString();
+  if (inRequiredLoggedInAccessList && !isLoggedIn) {
     next({ path: "/error/401" });
-  } else {
-    next();
-  }
-
-  if (isViewIndex) {
-    next({ path: "/error/404" });
   } else {
     next();
   }

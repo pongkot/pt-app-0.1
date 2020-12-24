@@ -1,5 +1,6 @@
+import { IHttpStatusCode } from "../common/interfaces";
 import { Logger } from "../common/Logger";
-import { IHttpStatusCode, IHttpStatusService } from "./interfaces";
+import { IHttpStatusService } from "./interfaces";
 
 export class HttpStatusService implements IHttpStatusService {
   private static instance: IHttpStatusService = new HttpStatusService();
@@ -17,15 +18,15 @@ export class HttpStatusService implements IHttpStatusService {
 
   getHttpStatus(statusCode: string): IHttpStatusCode {
     const pickUpStatusCode: Array<IHttpStatusCode> = this.httpStatusCodeDocs.filter(
-      (doc: IHttpStatusCode) => doc.statusCode === statusCode
+      (doc: IHttpStatusCode) => doc.code === statusCode
     );
     const result: IHttpStatusCode = {
-      statusCode: "-1",
-      message: "Invalid status code"
+      code: "-1",
+      phrase: "Invalid status code"
     };
     if (pickUpStatusCode.length > 0) {
-      result.statusCode = pickUpStatusCode[0].statusCode;
-      result.message = pickUpStatusCode[0].message;
+      result.code = pickUpStatusCode[0].code;
+      result.phrase = pickUpStatusCode[0].phrase;
     }
     return result;
   }

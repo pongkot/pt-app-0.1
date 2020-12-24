@@ -16,15 +16,10 @@
 <script lang="ts">
 import { Vue, Prop, Component } from "vue-property-decorator";
 import { Logger } from "@/modules/common/Logger";
-import { HttpStatusService } from "../modules/http-status/HttpStatusService";
+import { HttpStatusService } from "@/modules/http-status/HttpStatusService";
 import { httpStatusCode } from "@/modules/common/httpStatusCode";
 import { IHttpStatusService } from "@/modules/http-status/interfaces";
-
-// TODO import from external
-interface IHttpStatusCode {
-  statusCode: string;
-  message: string;
-}
+import { IHttpStatusCode } from "@/modules/common/interfaces";
 
 @Component
 export default class Error extends Vue {

@@ -1,8 +1,4 @@
-// TODO move it out
-export interface IHttpStatusCode {
-  statusCode: string;
-  message: string;
-}
+import { IHttpStatusCode } from "@/modules/common/interfaces";
 
 export interface IHttpStatusService {
   getHttpStatus(statusCode: string): IHttpStatusCode;
