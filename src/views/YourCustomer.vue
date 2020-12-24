@@ -2,7 +2,7 @@
   <div class="your-customer">
     <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-navbar-brand href="#" style="font-size: 18px;"
-        >Performance Tracking
+      >Performance Tracking
       </b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
@@ -43,6 +43,7 @@
       <div class="row pt-3 pb-4">
         <div class="col">
           <div class="my-3 p-3 bg-white rounded shadow-sm">
+            <pre>userId: {{ form.userId }}</pre>
             <h6 class="border-bottom border-gray pb-2 mb-0">Your customer</h6>
             <div
               class="media text-muted pt-3 position-relative"
@@ -67,7 +68,7 @@
               >
                 <strong class="d-block text-gray-dark">{{
                   item["accountName"]
-                }}</strong>
+                  }}</strong>
                 AccountId: {{ item["accountId"] }}
               </div>
               <div class="position-absolute" style="right: 0">
@@ -98,12 +99,6 @@
           </div>
         </div>
       </div>
-      <!--      <div class="row">-->
-      <!--        <div class="col">-->
-      <!--          selectUserId: {{ form.userId }}-->
-      <!--          <pre>{{ data.customer }}</pre>-->
-      <!--        </div>-->
-      <!--      </div>-->
     </div>
     <!-- TODO out of container -->
     <b-modal id="modal-center" centered title="Edit KPI">
@@ -117,28 +112,46 @@
   </div>
 </template>
 
-<script type="ts">
-import { Vue, Component } from "vue-property-decorator";
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import { Logger } from "@/modules/common/Logger";
 
 @Component
 export default class YourCustomer extends Vue {
+  private readonly logger: Logger = new Logger("YourCustomer.vue");
+
   toggle = {
     loadContent: true,
     noContent: false,
     specialist: true
   };
+
   data = {
     customer: []
   };
+
   alert = {
     specialist: {
       alert: false,
       message: ""
     }
   };
+
   form = {
     userId: "",
     option: []
   };
+
+  async fetchSpecialistInfoById(id: string): Promise<void> {
+    return new Promise(() => {
+      this.logger.log(`test fetchSpecialistInfoById: ${id}`);
+      this.form.userId = id;
+    });
+  }
+
+  mounted() {
+    const specialistId = sessionStorage.getItem("userId"); // TODO refactor to service
+    this.fetchSpecialistInfoById(specialistId);
+  }
 }
 </script>

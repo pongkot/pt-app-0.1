@@ -26,7 +26,7 @@ export default class Login extends Vue {
   private readonly logger: Logger = new Logger("Login.vue");
   private readonly defaultPage: string = "/your-customer";
 
-  private async verifyToken(token: string): Promise<void> {
+  private async verifyTokenAndRedirect(token: string): Promise<void> {
     if (token) {
       const authed = await this.authAdaptor.getVerify(token);
       this.logger.log(`authed: ${authed}`);
@@ -46,7 +46,7 @@ export default class Login extends Vue {
     if (sessionStorage.getItem("loggedIn") === "TRUE") {
       this.$router.push({ path: this.defaultPage });
     } else {
-      this.verifyToken(this.token);
+      this.verifyTokenAndRedirect(this.token);
     }
   }
 }
