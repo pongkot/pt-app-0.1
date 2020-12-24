@@ -67,7 +67,7 @@
                 class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray"
               >
                 <strong class="d-block text-gray-dark">{{
-                  item["accountName"]
+                    item["accountName"]
                   }}</strong>
                 AccountId: {{ item["accountId"] }}
               </div>
@@ -115,10 +115,12 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { Logger } from "@/modules/common/Logger";
+import { AdaptorProvider } from "@/modules/provider/AdaptorProvider";
 
 @Component
 export default class YourCustomer extends Vue {
   private readonly logger: Logger = new Logger("YourCustomer.vue");
+  private readonly adaptorProvider: AdaptorProvider = AdaptorProvider.getInstance();
 
   toggle = {
     loadContent: true,
@@ -127,7 +129,7 @@ export default class YourCustomer extends Vue {
   };
 
   data = {
-    customer: []
+    customer: [""]
   };
 
   alert = {
@@ -139,14 +141,18 @@ export default class YourCustomer extends Vue {
 
   form = {
     userId: "",
-    option: []
+    option: [""]
   };
 
   async fetchSpecialistInfoById(id: string): Promise<void> {
-    return new Promise(() => {
-      this.logger.log(`test fetchSpecialistInfoById: ${id}`);
-      this.form.userId = id;
-    });
+    try {
+      const SpecialistProfile = await this.adaptorProvider
+        .specialist()
+        .getProfileById(id);
+    } catch (error) {
+      this.alert.specialist.alert = true;
+      this.alert.specialist.message = error.message;
+    }
   }
 
   mounted() {
