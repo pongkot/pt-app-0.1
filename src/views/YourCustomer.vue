@@ -116,20 +116,22 @@
 import { Component, Vue } from "vue-property-decorator";
 import { Logger } from "@/modules/common/Logger";
 import { AdaptorProvider } from "@/modules/provider/AdaptorProvider";
+import { ServiceProvider } from "@/modules/provider/ServiceProvider";
 
 @Component
 export default class YourCustomer extends Vue {
   private readonly logger: Logger = new Logger("YourCustomer.vue");
   private readonly adaptorProvider: AdaptorProvider = AdaptorProvider.getInstance();
+  private readonly serviceProvider: ServiceProvider = ServiceProvider.getInstance();
 
   toggle = {
     loadContent: true,
-    noContent: false,
+    noContent: true,
     specialist: true
   };
 
   data = {
-    customer: [""]
+    customer: [{}]
   };
 
   alert = {
@@ -141,7 +143,7 @@ export default class YourCustomer extends Vue {
 
   form = {
     userId: "",
-    option: [""]
+    option: [{}]
   };
 
   async fetchSpecialistInfoById(id: string): Promise<void> {
@@ -149,6 +151,11 @@ export default class YourCustomer extends Vue {
       const SpecialistProfile = await this.adaptorProvider
         .specialist()
         .getProfileById(id);
+      this.form.option = await this.serviceProvider
+        .specialist()
+        .getSpecialistOption(SpecialistProfile);
+      this.form.userId = id;
+      this.toggle.specialist = false;
     } catch (error) {
       this.alert.specialist.alert = true;
       this.alert.specialist.message = error.message;

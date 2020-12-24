@@ -12,7 +12,7 @@ export class SpecialistAdaptor implements ISpecialistAdaptor {
 
   async getProfileById(id: string): Promise<SpecialistProfileModel> {
     const response: Response = await fetch(
-      `http://localhost:3000/specialist/id1/${id}`,
+      `http://localhost:3000/specialist/id/${id}`,
       { method: "GET", credentials: "same-origin" }
     );
 
