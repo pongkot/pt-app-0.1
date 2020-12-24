@@ -1,3 +1,10 @@
+// TODO move it out
+export interface IHttpStatusCode {
+  statusCode: string;
+  message: string;
+}
+
 export interface IHttpStatusService {
-  getHttpStatusMessage(statusCode: string): string;
+  getHttpStatus(statusCode: string): IHttpStatusCode;
+  setHttpStatusCodeDocs(docs: Array<IHttpStatusCode>): this;
 }

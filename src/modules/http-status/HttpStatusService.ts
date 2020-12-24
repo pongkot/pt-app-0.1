@@ -1,15 +1,12 @@
-import { IHttpStatusService } from "./interfaces";
-
-interface IHttpStatusCode {
-  statusCode: string;
-  message: string;
-}
+import { Logger } from "../common/Logger";
+import { IHttpStatusCode, IHttpStatusService } from "./interfaces";
 
 export class HttpStatusService implements IHttpStatusService {
-  private static instance: HttpStatusService = new HttpStatusService();
+  private static instance: IHttpStatusService = new HttpStatusService();
   private httpStatusCodeDocs: Array<IHttpStatusCode> = [];
+  private readonly logger: Logger = new Logger("HttpStatusService");
 
-  static getInstance(): HttpStatusService {
+  static getInstance(): IHttpStatusService {
     return this.instance;
   }
 
@@ -18,13 +15,18 @@ export class HttpStatusService implements IHttpStatusService {
     return this;
   }
 
-  getHttpStatusMessage(statusCode: string): string {
+  getHttpStatus(statusCode: string): IHttpStatusCode {
     const pickUpStatusCode: Array<IHttpStatusCode> = this.httpStatusCodeDocs.filter(
       (doc: IHttpStatusCode) => doc.statusCode === statusCode
     );
-    const result: string = pickUpStatusCode[0]
-      ? pickUpStatusCode[0].message
-      : "Invalid status code";
+    const result: IHttpStatusCode = {
+      statusCode: "-1",
+      message: "Invalid status code"
+    };
+    if (pickUpStatusCode.length > 0) {
+      result.statusCode = pickUpStatusCode[0].statusCode;
+      result.message = pickUpStatusCode[0].message;
+    }
     return result;
   }
 }
