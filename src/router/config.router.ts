@@ -1,3 +1,3 @@
 export const configRouter = {
-  viewRequiredLoggedIn: ["About"]
+  viewRequiredLoggedIn: ["About", "YourCustomer"]
 };

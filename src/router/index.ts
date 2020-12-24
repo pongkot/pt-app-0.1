@@ -5,6 +5,7 @@ import { loginRouter } from "./login.router";
 import { Logger } from "@/modules/common/Logger";
 import { logoutRouter } from "@/router/logout.router";
 import { configRouter } from "@/router/config.router";
+import { yourCustomerRouter } from "@/router/yourcustomer.router";
 
 const logger: Logger = new Logger("router");
 
@@ -31,7 +32,8 @@ const routes: Array<RouteConfig> = [
   },
   ...errorRouter,
   ...loginRouter,
-  ...logoutRouter
+  ...logoutRouter,
+  ...yourCustomerRouter
 ];
 
 const router = new VueRouter({
