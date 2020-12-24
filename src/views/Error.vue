@@ -4,9 +4,9 @@
       <div class="row">
         <div class="col-md pt-5 pl-5">
           <h1 class="pt-5">
-            Status Code: {{ getHttpMessage(statusCode).statusCode }}
+            Status Code: {{ getHttpMessage(statusCode).code }}
           </h1>
-          <p>Message: {{ getHttpMessage(statusCode).message }}</p>
+          <p>Message: {{ getHttpMessage(statusCode).phrase }}</p>
         </div>
       </div>
     </div>

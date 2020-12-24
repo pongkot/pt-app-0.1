@@ -1,5 +1,6 @@
+// TODO refactor to dynamic disable
 export class Logger {
-  private domain: string;
+  private readonly domain: string;
 
   constructor(domain: string) {
     this.domain = domain;
